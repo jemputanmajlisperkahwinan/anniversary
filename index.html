@@ -3,231 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Anniversary Fatin Nadzirah</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Happy Anniversary</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
             background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
             font-family: 'Poppins', sans-serif;
-            touch-action: pan-y;
+            touch-action: manipulation;
         }
-        .envelope-wrapper {
-            perspective: 1000px;
+        .container {
             position: relative;
-            margin-top: 50px;
+            margin-top: 40px;
         }
+        
+        /* Sampul Surat yang Stabil */
         .envelope {
             position: relative;
-            width: 340px;
-            height: 240px;
-            background: #e2e8f0;
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            transition: transform 0.5s;
+            width: 320px;
+            height: 220px;
+            background: #cbd5e1; /* Warna dalam sampul */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
             cursor: pointer;
+            border-radius: 4px;
         }
-        .envelope-flap {
+        
+        /* Bahagian Depan Sampul */
+        .front {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-right: 160px solid #e2e8f0;
+            border-left: 160px solid #e2e8f0;
+            border-bottom: 110px solid #f1f5f9;
+            border-top: 110px solid transparent;
+            z-index: 3;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        
+        /* Penutup Atas */
+        .flap {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 55%;
-            background: #cbd5e1;
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            width: 0;
+            height: 0;
+            border-right: 160px solid transparent;
+            border-left: 160px solid transparent;
+            border-top: 120px solid #e2e8f0;
+            border-bottom: 100px solid transparent;
             transform-origin: top;
-            transition: transform 0.6s ease-in-out;
+            transition: transform 0.5s ease-in-out, z-index 0.1s;
             z-index: 4;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 20px;
         }
-        .envelope-flap.open {
+        
+        /* Animasi Buka Tutup */
+        .envelope.open .flap {
             transform: rotateX(180deg);
             z-index: 1;
         }
-        .envelope-bottom {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 60%;
-            background: #e2e8f0;
-            clip-path: polygon(0 100%, 50% 0, 100% 100%);
-            z-index: 3;
-        }
-        .envelope-left {
-            position: absolute;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            background: #cbd5e1;
-            clip-path: polygon(0 0, 100% 50%, 0 100%);
-            z-index: 3;
-        }
-        .envelope-right {
-            position: absolute;
-            right: 0;
-            width: 50%;
-            height: 100%;
-            background: #cbd5e1;
-            clip-path: polygon(100% 0, 0 50%, 100% 100%);
-            z-index: 3;
-        }
+        
+        /* Surat */
         .letter {
             position: absolute;
+            background: #ffffff;
+            width: 300px;
+            height: 200px;
             top: 10px;
             left: 10px;
-            right: 10px;
-            bottom: 10px;
-            background: #fffafa;
-            border-radius: 5px;
             padding: 25px 20px;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             border: 1px solid #fce7f3;
         }
-        .letter.open {
+        .envelope.open .letter {
             transform: translateY(-110px);
-            height: 320px;
+            height: 280px;
             z-index: 5;
         }
-        .heart-seal {
-            font-size: 35px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            transition: opacity 0.3s;
+        
+        /* Teks */
+        .text-title {
+            font-family: 'Playfair Display', serif;
+            color: #db2777;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
         }
-        .envelope-flap.open .heart-seal {
-            opacity: 0;
+        .text-name {
+            font-family: 'Playfair Display', serif;
+            color: #1f2937;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
-        @media (max-width: 400px) {
-            .envelope {
-                width: 300px;
-                height: 200px;
-            }
-            .letter.open {
-                transform: translateY(-90px);
-                height: 280px;
-            }
+        .divider {
+            width: 50px;
+            height: 1px;
+            background: #f9a8d4;
+            margin-bottom: 15px;
         }
-        /* Floating Hearts */
-        .floating-heart {
+        .text-body {
+            font-size: 0.85rem;
+            color: #4b5563;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .text-love {
+            color: #db2777;
+            font-weight: bold;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(219, 39, 119, 0.2);
+        }
+        
+        /* Butang Arahan */
+        .instruction {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            color: #db2777;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            z-index: 10;
+        }
+        
+        /* Hati Terbang */
+        .heart {
             position: fixed;
             color: #e11d48;
             animation: floatUp 4s ease-in forwards;
             opacity: 0;
             z-index: 20;
             pointer-events: none;
-            filter: drop-shadow(0 0 5px rgba(225, 29, 72, 0.5));
+            filter: drop-shadow(0 2px 4px rgba(225, 29, 72, 0.3));
         }
         @keyframes floatUp {
             0% { transform: translateY(0) scale(0.8); opacity: 1; }
             100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
         }
-        .glow-text {
-            text-shadow: 0 0 10px rgba(244, 63, 94, 0.3);
+        
+        /* Responsif Skrin Kecil */
+        @media (max-width: 380px) {
+            .envelope { width: 280px; height: 190px; }
+            .front {
+                border-right: 140px solid #e2e8f0;
+                border-left: 140px solid #e2e8f0;
+                border-bottom: 95px solid #f1f5f9;
+                border-top: 95px solid transparent;
+            }
+            .flap {
+                border-right: 140px solid transparent;
+                border-left: 140px solid transparent;
+                border-top: 105px solid #e2e8f0;
+                border-bottom: 85px solid transparent;
+            }
+            .letter { width: 260px; height: 170px; padding: 15px; }
+            .envelope.open .letter { transform: translateY(-90px); height: 260px; }
         }
     </style>
 </head>
-<body class="flex items-center justify-center">
+<body>
 
-    <!-- Fail Audio Lokal (Pastikan fail lagu-piano.mp3 ada di GitHub) -->
+    <!-- Muzik (Pastikan ada lagu-piano.mp3 di GitHub) -->
     <audio id="bgMusic" src="lagu-piano.mp3" loop preload="auto"></audio>
 
-    <div class="envelope-wrapper">
-        <div id="envelope" class="envelope">
+    <div class="container">
+        <div class="envelope" id="envelope">
+            <div class="flap" id="flap"></div>
             
-            <!-- Penutup Sampul -->
-            <div id="flap" class="envelope-flap">
-                <div class="heart-seal">❤️</div>
-            </div>
-            
-            <!-- Bahagian Sampul -->
-            <div class="envelope-left"></div>
-            <div class="envelope-right"></div>
-            <div class="envelope-bottom"></div>
-
-            <!-- Arahan Luar -->
-            <div id="clickText" class="absolute z-10 -bottom-14 left-1/2 transform -translate-x-1/2 text-pink-600 font-medium tracking-wide text-sm bg-white/80 backdrop-blur px-5 py-2 rounded-full shadow-sm w-max">
-                Klik sampul untuk buka
-            </div>
-
-            <!-- Isi Surat -->
-            <div id="letter" class="letter">
-                <h1 class="text-2xl text-pink-600 mb-1" style="font-family: 'Playfair Display', serif;">Buat Isteri Tersayang,</h1>
-                <h2 class="text-xl font-semibold mb-4 text-gray-800" style="font-family: 'Playfair Display', serif;">Fatin Nadzirah</h2>
-                <div class="w-16 h-[1px] bg-pink-300 mx-auto mb-4"></div>
-                <p class="text-sm leading-relaxed mb-5 text-gray-600 italic">
+            <div class="letter" id="letter">
+                <div class="text-title">Buat Isteri Tersayang,</div>
+                <div class="text-name">Fatin Nadzirah</div>
+                <div class="divider"></div>
+                <div class="text-body">
                     "Selamat Hari Ulang Tahun Perkahwinan Yang Ke-4."<br><br>
                     Terima kasih kerana sentiasa menjadi pelengkap hidup abang. Semoga cinta kita terus mekar selamanya.
-                </p>
-                <p class="text-base text-pink-600 font-semibold glow-text">I love you! ❤️</p>
+                </div>
+                <div class="text-love">I love you! ❤️</div>
             </div>
+            
+            <div class="front"></div>
         </div>
+        <div class="instruction" id="clickText">Klik sampul untuk buka</div>
     </div>
 
     <script>
         const envelope = document.getElementById('envelope');
-        const flap = document.getElementById('flap');
-        const letter = document.getElementById('letter');
         const bgMusic = document.getElementById('bgMusic');
         const clickText = document.getElementById('clickText');
         let isOpened = false;
         let musicStarted = false;
 
         envelope.addEventListener('click', () => {
-            // Muzik bermula secara automatik apabila sampul diklik
+            // Mainkan muzik pada klik pertama
             if (!musicStarted) {
-                bgMusic.play().catch(e => console.log("Menunggu interaksi pengguna"));
+                bgMusic.play().catch(() => {});
                 musicStarted = true;
             }
 
             isOpened = !isOpened;
             
             if(isOpened) {
-                flap.classList.add('open');
-                setTimeout(() => {
-                    letter.classList.add('open');
-                }, 300); 
+                envelope.classList.add('open');
                 clickText.innerText = "Klik semula untuk tutup";
                 createHearts();
             } else {
-                letter.classList.remove('open');
-                setTimeout(() => {
-                    flap.classList.remove('open');
-                }, 400); 
+                envelope.classList.remove('open');
                 clickText.innerText = "Klik sampul untuk buka";
             }
         });
 
-        // Kesan Hati Terbang
         function createHearts() {
             for (let i = 0; i < 25; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
-                    heart.classList.add('floating-heart');
+                    heart.classList.add('heart');
                     heart.innerText = '❤️';
                     heart.style.left = Math.random() * 100 + 'vw';
                     heart.style.bottom = '-20px';
-                    
-                    const size = Math.random() * 15 + 15;
-                    heart.style.fontSize = size + 'px';
+                    heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
                     heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                    
                     document.body.appendChild(heart);
-                    
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 5000);
+                    setTimeout(() => heart.remove(), 5000);
                 }, i * 150);
             }
         }
