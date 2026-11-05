@@ -3,249 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Anniversary</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Happy Anniversary Fatin Nadzirah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Poppins', sans-serif;
-            touch-action: manipulation;
-        }
-        .container {
-            position: relative;
-            margin-top: 40px;
-        }
+        /* RESET & BASE */
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background-color: #050505; touch-action: none; font-family: 'Montserrat', sans-serif; }
         
-        /* Sampul Surat yang Stabil */
-        .envelope {
+        /* AUDIO VISUALIZER (Hidden but active) */
+        audio { display: none; }
+
+        /* =========================================
+           SCENE 1: THE ENVELOPE (REALITY)
+           ========================================= */
+        #scene-envelope {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            background: radial-gradient(circle at center, #2a0845 0%, #050505 100%);
+            z-index: 50; transition: opacity 2s ease-in-out, transform 2s cubic-bezier(0.77, 0, 0.175, 1);
+            perspective: 1500px;
+        }
+
+        .envelope-wrapper {
             position: relative;
-            width: 320px;
-            height: 220px;
-            background: #cbd5e1; /* Warna dalam sampul */
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            animation: float 4s ease-in-out infinite;
+            transform-style: preserve-3d;
             cursor: pointer;
-            border-radius: 4px;
         }
-        
-        /* Bahagian Depan Sampul */
-        .front {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-right: 160px solid #e2e8f0;
-            border-left: 160px solid #e2e8f0;
-            border-bottom: 110px solid #f1f5f9;
-            border-top: 110px solid transparent;
-            z-index: 3;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateX(5deg); }
+            50% { transform: translateY(-20px) rotateX(10deg); }
         }
-        
-        /* Penutup Atas */
+
+        .envelope-body {
+            position: relative; width: 320px; height: 200px;
+            background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+            border-radius: 5px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 2px #555;
+            transform-style: preserve-3d;
+        }
+
         .flap {
-            position: absolute;
-            top: 0;
-            width: 0;
-            height: 0;
-            border-right: 160px solid transparent;
-            border-left: 160px solid transparent;
-            border-top: 120px solid #e2e8f0;
-            border-bottom: 100px solid transparent;
+            position: absolute; top: 0; left: 0; width: 100%; height: 120px;
+            background: linear-gradient(to bottom, #444, #2a2a2a);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
             transform-origin: top;
-            transition: transform 0.5s ease-in-out, z-index 0.1s;
-            z-index: 4;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: flex-end; padding-bottom: 20px;
         }
-        
-        /* Animasi Buka Tutup */
-        .envelope.open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
+
+        .wax-seal {
+            width: 45px; height: 45px;
+            background: radial-gradient(circle at 30% 30%, #ff4b4b, #8b0000);
+            border-radius: 50%;
+            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,255,255,0.3);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 20px; color: gold; font-family: 'Great Vibes';
+            transition: opacity 0.5s;
         }
-        
-        /* Surat */
-        .letter {
-            position: absolute;
-            background: #ffffff;
-            width: 300px;
-            height: 200px;
-            top: 10px;
-            left: 10px;
-            padding: 25px 20px;
-            text-align: center;
-            border-radius: 6px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #fce7f3;
-        }
-        .envelope.open .letter {
-            transform: translateY(-110px);
-            height: 280px;
+
+        .front-left {
+            position: absolute; bottom: 0; left: 0; width: 50%; height: 100%;
+            background: linear-gradient(to right, #333, #222);
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
             z-index: 5;
         }
-        
-        /* Teks */
-        .text-title {
-            font-family: 'Playfair Display', serif;
-            color: #db2777;
-            font-size: 1.3rem;
-            margin-bottom: 5px;
+
+        .front-right {
+            position: absolute; bottom: 0; right: 0; width: 50%; height: 100%;
+            background: linear-gradient(to left, #333, #222);
+            clip-path: polygon(100% 0, 0 50%, 100% 100%);
+            z-index: 5;
         }
-        .text-name {
-            font-family: 'Playfair Display', serif;
-            color: #1f2937;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+
+        .front-bottom {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 60%;
+            background: linear-gradient(to top, #2a2a2a, #3a3a3a);
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            z-index: 6;
         }
-        .divider {
-            width: 50px;
-            height: 1px;
-            background: #f9a8d4;
-            margin-bottom: 15px;
+
+        .click-instruction {
+            position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+            color: #d4af37; font-size: 14px; letter-spacing: 3px; font-weight: 300;
+            text-transform: uppercase; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            animation: pulseText 2s infinite;
         }
-        .text-body {
-            font-size: 0.85rem;
-            color: #4b5563;
-            font-style: italic;
-            margin-bottom: 15px;
-            line-height: 1.6;
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(212, 175, 55, 1); }
         }
-        .text-love {
-            color: #db2777;
-            font-weight: bold;
-            font-size: 1rem;
-            text-shadow: 0 0 5px rgba(219, 39, 119, 0.2);
+
+        /* TRANSITION EFFECTS (The "Warp" to Another World) */
+        .magical-glow {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 10px; height: 10px;
+            background: #fff; border-radius: 50%;
+            box-shadow: 0 0 50px 20px #ff69b4, 0 0 100px 50px #8a2be2, 0 0 200px 100px #fff;
+            opacity: 0; z-index: 4; pointer-events: none;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        /* Butang Arahan */
-        .instruction {
-            position: absolute;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            color: #db2777;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            white-space: nowrap;
-            z-index: 10;
+
+        .envelope-wrapper.warp .flap { transform: rotateX(180deg); }
+        .envelope-wrapper.warp .wax-seal { opacity: 0; }
+        .envelope-wrapper.warp .magical-glow { opacity: 1; transform: translate(-50%, -50%) scale(100); }
+        .scene-out { opacity: 0 !important; transform: scale(5) translateZ(500px) !important; pointer-events: none; }
+
+        /* =========================================
+           SCENE 2: THE MAGICAL WORLD (CANVAS + LETTER)
+           ========================================= */
+        #scene-world {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; z-index: 10; pointer-events: none; transition: opacity 2s ease-in;
+            display: flex; justify-content: center; align-items: center;
         }
-        
-        /* Hati Terbang */
-        .heart {
-            position: fixed;
-            color: #e11d48;
-            animation: floatUp 4s ease-in forwards;
+        #scene-world.active { opacity: 1; pointer-events: all; }
+
+        canvas#magicCanvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* The Glassmorphism Letter */
+        .glass-letter {
+            position: relative; z-index: 2;
+            width: 90%; max-width: 500px; padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.1);
+            text-align: center;
+            transform: translateY(100px) scale(0.9);
             opacity: 0;
-            z-index: 20;
-            pointer-events: none;
-            filter: drop-shadow(0 2px 4px rgba(225, 29, 72, 0.3));
+            transition: all 2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.8); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        .glass-letter::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, transparent, #ff69b4, transparent, #d4af37);
+            z-index: -1; border-radius: 22px; opacity: 0.3; animation: borderGlow 5s linear infinite;
         }
-        
-        /* Responsif Skrin Kecil */
-        @media (max-width: 380px) {
-            .envelope { width: 280px; height: 190px; }
-            .front {
-                border-right: 140px solid #e2e8f0;
-                border-left: 140px solid #e2e8f0;
-                border-bottom: 95px solid #f1f5f9;
-                border-top: 95px solid transparent;
-            }
-            .flap {
-                border-right: 140px solid transparent;
-                border-left: 140px solid transparent;
-                border-top: 105px solid #e2e8f0;
-                border-bottom: 85px solid transparent;
-            }
-            .letter { width: 260px; height: 170px; padding: 15px; }
-            .envelope.open .letter { transform: translateY(-90px); height: 260px; }
+        @keyframes borderGlow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .glass-letter.show { transform: translateY(0) scale(1); opacity: 1; }
+
+        /* Typography Inside the Letter */
+        .t-title { font-family: 'Cinzel', serif; color: #e2e8f0; font-size: 1.2rem; margin-bottom: 10px; opacity: 0; transform: translateY(20px); }
+        .t-name { font-family: 'Great Vibes', cursive; color: #ff9ed2; font-size: 3.5rem; text-shadow: 0 0 20px rgba(255, 158, 210, 0.6); margin-bottom: 20px; line-height: 1.2; opacity: 0; transform: scale(0.8); }
+        .t-divider { width: 0; height: 1px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 0 auto 25px auto; transition: width 1.5s ease; }
+        .t-body { font-size: 1rem; color: #cbd5e1; font-weight: 300; line-height: 1.8; margin-bottom: 30px; opacity: 0; transform: translateY(20px); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .t-love { font-family: 'Cinzel', serif; color: #d4af37; font-size: 1.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0; transform: translateY(20px); }
+
+        /* Staggered Animations for Text */
+        .glass-letter.show .t-title { opacity: 1; transform: translateY(0); transition: all 1s ease 1s; }
+        .glass-letter.show .t-name { opacity: 1; transform: scale(1); transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s; }
+        .glass-letter.show .t-divider { width: 80%; transition-delay: 2s; }
+        .glass-letter.show .t-body { opacity: 1; transform: translateY(0); transition: all 1s ease 2.5s; }
+        .glass-letter.show .t-love { opacity: 1; transform: translateY(0); transition: all 1s ease 3.5s; }
+
+        @media (max-width: 480px) {
+            .envelope-body { width: 280px; height: 180px; }
+            .t-name { font-size: 2.8rem; }
+            .t-body { font-size: 0.9rem; }
+            .glass-letter { padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Muzik (Pastikan ada lagu-piano.mp3 di GitHub) -->
+    <!-- BGM Audio: Pastikan lagu-piano.mp3 ada -->
     <audio id="bgMusic" src="lagu-piano.mp3" loop preload="auto"></audio>
 
-    <div class="container">
-        <div class="envelope" id="envelope">
-            <div class="flap" id="flap"></div>
-            
-            <div class="letter" id="letter">
-                <div class="text-title">Buat Isteri Tersayang,</div>
-                <div class="text-name">Fatin Nadzirah</div>
-                <div class="divider"></div>
-                <div class="text-body">
-                    "Selamat Hari Ulang Tahun Perkahwinan Yang Ke-4."<br><br>
-                    Terima kasih kerana sentiasa menjadi pelengkap hidup abang. Semoga cinta kita terus mekar selamanya.
-                </div>
-                <div class="text-love">I love you! ❤️</div>
+    <!-- FASA 1 & 2: SAMPUL DAN PORTAL WARP -->
+    <div id="scene-envelope">
+        <div class="envelope-wrapper" id="envelope-wrapper">
+            <div class="envelope-body">
+                <div class="flap"><div class="wax-seal">4</div></div>
+                <div class="magical-glow"></div>
+                <div class="front-left"></div>
+                <div class="front-right"></div>
+                <div class="front-bottom"></div>
             </div>
-            
-            <div class="front"></div>
+            <div class="click-instruction" id="instruction-text">Klik Untuk Membuka</div>
         </div>
-        <div class="instruction" id="clickText">Klik sampul untuk buka</div>
+    </div>
+
+    <!-- FASA 3: DUNIA MAGIK -->
+    <div id="scene-world">
+        <!-- Canvas untuk zarah (particles), bintang, & hati -->
+        <canvas id="magicCanvas"></canvas>
+        
+        <!-- Surat Magik 3D Glassmorphism -->
+        <div class="glass-letter" id="magic-letter">
+            <div class="t-title">Buat Isteri Tersayang,</div>
+            <div class="t-name">Fatin Nadzirah</div>
+            <div class="t-divider"></div>
+            <div class="t-body">
+                "Selamat Hari Ulang Tahun Perkahwinan Yang Ke-4."<br><br>
+                Terima kasih kerana sentiasa menjadi pelengkap hidup abang. Semoga cinta kita terus mekar selamanya.
+            </div>
+            <div class="t-love">I love you! ❤️</div>
+        </div>
     </div>
 
     <script>
-        const envelope = document.getElementById('envelope');
+        /* ========================================================
+           BAHAGIAN 1: LOGIK DOM & KAWALAN TRANSISI SINEMATIK
+           ======================================================== */
+        const envelopeWrapper = document.getElementById('envelope-wrapper');
+        const sceneEnvelope = document.getElementById('scene-envelope');
+        const sceneWorld = document.getElementById('scene-world');
+        const magicLetter = document.getElementById('magic-letter');
         const bgMusic = document.getElementById('bgMusic');
-        const clickText = document.getElementById('clickText');
         let isOpened = false;
-        let musicStarted = false;
 
-        envelope.addEventListener('click', () => {
-            // Mainkan muzik pada klik pertama
-            if (!musicStarted) {
-                bgMusic.play().catch(() => {});
-                musicStarted = true;
-            }
+        envelopeWrapper.addEventListener('click', () => {
+            if (isOpened) return;
+            isOpened = true;
 
-            isOpened = !isOpened;
-            
-            if(isOpened) {
-                envelope.classList.add('open');
-                clickText.innerText = "Klik semula untuk tutup";
-                createHearts();
-            } else {
-                envelope.classList.remove('open');
-                clickText.innerText = "Klik sampul untuk buka";
-            }
+            // 1. Mainkan Muzik
+            bgMusic.play().catch(e => console.log("Menunggu kebenaran audio..."));
+
+            // 2. Mulakan Animasi Warp
+            document.getElementById('instruction-text').style.opacity = '0';
+            envelopeWrapper.classList.add('warp');
+
+            // 3. Selepas cahaya memancar (1.2 saat), mulakan peralihan scene
+            setTimeout(() => {
+                sceneEnvelope.classList.add('scene-out');
+            }, 1200);
+
+            // 4. Masuk ke Dunia Magik dan munculkan Surat
+            setTimeout(() => {
+                sceneWorld.classList.add('active');
+                initCanvasMagic(); // Hidupkan enjin zarah canvas
+                
+                setTimeout(() => {
+                    magicLetter.classList.add('show');
+                }, 500);
+            }, 2500);
         });
 
-        function createHearts() {
-            for (let i = 0; i < 25; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.classList.add('heart');
-                    heart.innerText = '❤️';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.bottom = '-20px';
-                    heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
-                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                    document.body.appendChild(heart);
-                    setTimeout(() => heart.remove(), 5000);
-                }, i * 150);
+        /* ========================================================
+           BAHAGIAN 2: ENJIN CANVAS - DUNIA ZARAH & MAGIK (100% CUSTOM)
+           ======================================================== */
+        const canvas = document.getElementById('magicCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let stars = [];
+        let hearts = [];
+        let w, h;
+
+        function resizeCanvas() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        // Kelas Bintang Latar Belakang (Statik & Berkelip)
+        class Star {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.size = Math.random() * 1.5;
+                this.blinkSpeed = Math.random() * 0.02 + 0.01;
+                this.alpha = Math.random();
             }
+            update() {
+                this.alpha += this.blinkSpeed;
+                if (this.alpha >= 1 || this.alpha <= 0) {
+                    this.blinkSpeed *= -1;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(this.alpha)})`;
+                ctx.fill();
+            }
+        }
+
+        // Kelas Zarah Magik (Debu Bercahaya Terapung)
+        class Particle {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = h + Math.random() * h;
+                this.size = Math.random() * 2 + 1;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 1;
+                this.color = Math.random() > 0.5 ? '#ff9ed2' : '#d4af37';
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) {
+                    this.y = h + 10;
+                    this.x = Math.random() * w;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        // Kelas Hati Magik (Merapung Ke Atas)
+        class FloatingHeart {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = h + 50;
+                this.size = Math.random() * 15 + 10;
+                this.speedY = Math.random() * 2 + 1;
+                this.wave = Math.random() * Math.PI * 2;
+                this.opacity = 1;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.wave) * 2;
+                this.wave += 0.05;
+                this.opacity -= 0.002;
+            }
+            draw() {
+                if (this.opacity <= 0) return;
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.scale(this.size / 30, this.size / 30); // Normalize size
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#e11d48';
+                
+                // Melukis Hati mengikut lengkung Bezier
+                ctx.beginPath();
+                ctx.moveTo(0, 10);
+                ctx.bezierCurveTo(-15, -15, -40, 10, 0, 40);
+                ctx.bezierCurveTo(40, 10, 15, -15, 0, 10);
+                ctx.fillStyle = '#e11d48';
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initCanvasMagic() {
+            resizeCanvas();
+            // Jana 200 bintang, 100 debu magik
+            for (let i = 0; i < 200; i++) stars.push(new Star());
+            for (let i = 0; i < 80; i++) particles.push(new Particle());
+            
+            animate();
+            
+            // Jana hati bercahaya setiap 1 saat
+            setInterval(() => {
+                if (hearts.length < 20) hearts.push(new FloatingHeart());
+            }, 1000);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            
+            // Latar Belakang Kecerunan Lembut (Aurora effect)
+            let grd = ctx.createLinearGradient(0, 0, 0, h);
+            grd.addColorStop(0, "rgba(20, 5, 35, 1)");
+            grd.addColorStop(1, "rgba(50, 10, 40, 1)");
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, w, h);
+
+            stars.forEach(star => { star.update(); star.draw(); });
+            particles.forEach(p => { p.update(); p.draw(); });
+            
+            hearts = hearts.filter(h => h.opacity > 0 && h.y > -50);
+            hearts.forEach(heart => { heart.update(); heart.draw(); });
+
+            requestAnimationFrame(animate);
         }
     </script>
 </body>
