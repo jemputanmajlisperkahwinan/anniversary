@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Anniversary Fatin Nadzirah</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         body {
             position: fixed;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #fce7f3; /* Pink lembut */
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+            font-family: 'Poppins', sans-serif;
             touch-action: pan-y;
         }
         .envelope-wrapper {
             perspective: 1000px;
+            position: relative;
+            margin-top: 50px;
         }
         .envelope {
             position: relative;
-            width: 320px;
-            height: 220px;
+            width: 340px;
+            height: 240px;
             background: #e2e8f0;
             border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             transition: transform 0.5s;
             cursor: pointer;
         }
@@ -32,14 +36,18 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
+            height: 55%;
             background: #cbd5e1;
             clip-path: polygon(0 0, 50% 100%, 100% 0);
             transform-origin: top;
             transition: transform 0.6s ease-in-out;
-            z-index: 3;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 20px;
         }
-        .envelope.open .envelope-flap {
+        .envelope-flap.open {
             transform: rotateX(180deg);
             z-index: 1;
         }
@@ -70,72 +78,77 @@
             clip-path: polygon(100% 0, 0 50%, 100% 100%);
             z-index: 3;
         }
-        
         .letter {
             position: absolute;
             top: 10px;
             left: 10px;
             right: 10px;
             bottom: 10px;
-            background: white;
+            background: #fffafa;
             border-radius: 5px;
-            padding: 20px;
-            transition: transform 0.6s ease-in-out, top 0.6s ease-in-out, height 0.6s ease-in-out;
+            padding: 25px 20px;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            border: 1px solid #fce7f3;
         }
-        .envelope.open .letter {
-            transform: translateY(-80px);
-            height: 250px;
-            z-index: 4;
+        .letter.open {
+            transform: translateY(-110px);
+            height: 320px;
+            z-index: 5;
+        }
+        .heart-seal {
+            font-size: 35px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: opacity 0.3s;
+        }
+        .envelope-flap.open .heart-seal {
+            opacity: 0;
         }
         @media (max-width: 400px) {
             .envelope {
-                width: 280px;
-                height: 190px;
+                width: 300px;
+                height: 200px;
             }
-            .envelope.open .letter {
-                transform: translateY(-70px);
-                height: 230px;
+            .letter.open {
+                transform: translateY(-90px);
+                height: 280px;
             }
         }
-        
-        /* Animasi Hati Terbang */
-        .heart {
+        /* Floating Hearts */
+        .floating-heart {
             position: fixed;
-            color: #f43f5e;
+            color: #e11d48;
             animation: floatUp 4s ease-in forwards;
             opacity: 0;
-            z-index: 10;
+            z-index: 20;
             pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(225, 29, 72, 0.5));
         }
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
             100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(244, 63, 94, 0.3);
         }
     </style>
 </head>
-<body class="flex items-center justify-center font-serif">
+<body class="flex items-center justify-center">
 
-    <!-- FUNGSI AUDIO: Tukar 'lagu-piano.mp3' di bawah kepada nama fail lagu anda -->
+    <!-- Fail Audio Lokal (Pastikan fail lagu-piano.mp3 ada di GitHub) -->
     <audio id="bgMusic" src="lagu-piano.mp3" loop preload="auto"></audio>
 
-    <!-- Butang Muzik -->
-    <button id="musicBtn" class="fixed top-5 right-5 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md text-sm text-pink-600 font-bold z-50 border border-pink-200">
-        🎵 Mainkan Muzik
-    </button>
-
-    <div class="envelope-wrapper relative mt-16">
-        <div id="envelope" class="envelope flex flex-col items-center justify-center">
+    <div class="envelope-wrapper">
+        <div id="envelope" class="envelope">
             
             <!-- Penutup Sampul -->
-            <div class="envelope-flap flex items-center justify-center">
-                <span class="text-white text-3xl mt-4">❤️</span>
+            <div id="flap" class="envelope-flap">
+                <div class="heart-seal">❤️</div>
             </div>
             
             <!-- Bahagian Sampul -->
@@ -144,70 +157,69 @@
             <div class="envelope-bottom"></div>
 
             <!-- Arahan Luar -->
-            <div id="clickText" class="absolute z-10 -bottom-12 text-pink-600 font-semibold tracking-wide text-sm bg-white/70 px-4 py-1.5 rounded-full shadow-sm">
+            <div id="clickText" class="absolute z-10 -bottom-14 left-1/2 transform -translate-x-1/2 text-pink-600 font-medium tracking-wide text-sm bg-white/80 backdrop-blur px-5 py-2 rounded-full shadow-sm w-max">
                 Klik sampul untuk buka
             </div>
 
             <!-- Isi Surat -->
-            <div class="letter text-gray-800">
-                <h1 class="text-xl font-bold text-pink-600 mb-2">Buat Isteri Tersayang,</h1>
-                <h2 class="text-lg font-semibold mb-3">Fatin Nadzirah</h2>
-                <p class="text-sm leading-relaxed mb-4 text-gray-600 italic">
+            <div id="letter" class="letter">
+                <h1 class="text-2xl text-pink-600 mb-1" style="font-family: 'Playfair Display', serif;">Buat Isteri Tersayang,</h1>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800" style="font-family: 'Playfair Display', serif;">Fatin Nadzirah</h2>
+                <div class="w-16 h-[1px] bg-pink-300 mx-auto mb-4"></div>
+                <p class="text-sm leading-relaxed mb-5 text-gray-600 italic">
                     "Selamat Hari Ulang Tahun Perkahwinan Yang Ke-4."<br><br>
                     Terima kasih kerana sentiasa menjadi pelengkap hidup abang. Semoga cinta kita terus mekar selamanya.
                 </p>
-                <p class="text-sm text-pink-500 font-bold">I love you! ❤️</p>
+                <p class="text-base text-pink-600 font-semibold glow-text">I love you! ❤️</p>
             </div>
         </div>
     </div>
 
     <script>
         const envelope = document.getElementById('envelope');
+        const flap = document.getElementById('flap');
+        const letter = document.getElementById('letter');
         const bgMusic = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicBtn');
         const clickText = document.getElementById('clickText');
-        let isMusicPlaying = false;
+        let isOpened = false;
+        let musicStarted = false;
 
-        // Buka/Tutup Sampul
         envelope.addEventListener('click', () => {
-            envelope.classList.toggle('open');
+            // Muzik bermula secara automatik apabila sampul diklik
+            if (!musicStarted) {
+                bgMusic.play().catch(e => console.log("Menunggu interaksi pengguna"));
+                musicStarted = true;
+            }
+
+            isOpened = !isOpened;
             
-            if(envelope.classList.contains('open')) {
+            if(isOpened) {
+                flap.classList.add('open');
+                setTimeout(() => {
+                    letter.classList.add('open');
+                }, 300); 
                 clickText.innerText = "Klik semula untuk tutup";
                 createHearts();
             } else {
+                letter.classList.remove('open');
+                setTimeout(() => {
+                    flap.classList.remove('open');
+                }, 400); 
                 clickText.innerText = "Klik sampul untuk buka";
-            }
-        });
-
-        // Butang Mainkan Muzik
-        musicBtn.addEventListener('click', () => {
-            if(isMusicPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = "🎵 Mainkan Muzik";
-                isMusicPlaying = false;
-            } else {
-                bgMusic.play().then(() => {
-                    musicBtn.innerHTML = "⏸️ Jeda Muzik";
-                    isMusicPlaying = true;
-                }).catch(e => {
-                    console.error("Gagal mainkan audio:", e);
-                    alert("Pastikan fail lagu dimuat naik bersama fail HTML ini.");
-                });
             }
         });
 
         // Kesan Hati Terbang
         function createHearts() {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
-                    heart.classList.add('heart');
+                    heart.classList.add('floating-heart');
                     heart.innerText = '❤️';
                     heart.style.left = Math.random() * 100 + 'vw';
                     heart.style.bottom = '-20px';
                     
-                    const size = Math.random() * 15 + 10;
+                    const size = Math.random() * 15 + 15;
                     heart.style.fontSize = size + 'px';
                     heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
                     
